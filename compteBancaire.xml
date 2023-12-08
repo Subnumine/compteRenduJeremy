@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CompteBancaires>
-  <CompteBancaire numCompte="20">
-    <nomProprietaire>Jeremy</nomProprietaire>
-    <solde>884.52</solde>
-    <dateCreation>2023-12-08</dateCreation>
-    <typeCompte>Courant</typeCompte>
-  </CompteBancaire>
   <CompteBancaire numCompte="30">
     <nomProprietaire>Justine</nomProprietaire>
     <solde>1200.5</solde>

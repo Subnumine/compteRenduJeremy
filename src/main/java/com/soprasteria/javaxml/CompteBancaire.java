@@ -3,15 +3,15 @@ package com.soprasteria.javaxml;
 import java.time.LocalDate;
 
 public class CompteBancaire {
-	private int numCompte;
+	private Integer numCompte;
 	private String nomProprietaire;
-	private double solde;
+	private Double solde;
 	private LocalDate dateCreation;
 	private String typeCompte;
 	public int getNumCompte() {
 		return numCompte;
 	}
-	public void setNumCompte(int numCompte) {
+	public void setNumCompte(Integer numCompte) {
 		this.numCompte = numCompte;
 	}
 	public String getNomProprietaire() {
@@ -23,7 +23,7 @@ public class CompteBancaire {
 	public double getSolde() {
 		return solde;
 	}
-	public void setSolde(double solde) {
+	public void setSolde(Double solde) {
 		this.solde = solde;
 	}
 	public LocalDate getDateCreation() {
@@ -38,7 +38,7 @@ public class CompteBancaire {
 	public void setTypeCompte(String typeCompte) {
 		this.typeCompte = typeCompte;
 	}
-	public CompteBancaire(int numCompte, String nomProprietaire, double solde, LocalDate dateCreation, String typeCompte) {
+	public CompteBancaire(Integer numCompte, String nomProprietaire, Double solde, LocalDate dateCreation, String typeCompte) {
 		super();
 		this.numCompte = numCompte;
 		this.nomProprietaire = nomProprietaire;

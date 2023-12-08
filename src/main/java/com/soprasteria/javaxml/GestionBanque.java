@@ -17,7 +17,7 @@ import org.jdom2.output.XMLOutputter;
 public class GestionBanque {
 
 	public static void main(String[] args) {
-		
+
 		System.out.println("Bonjour, que voulez-vous faire ?");
 		System.out.println("1 - Ajouter des comptes bancaires");
 		System.out.println("2 - Afficher tous les comptes");
@@ -26,17 +26,35 @@ public class GestionBanque {
 		System.out.println("5 - Supprimer un compte");
 		Scanner clavier = new Scanner(System.in);
 		int reponse = clavier.nextInt();
-		switch (reponse){
+		switch (reponse) {
 		case 1:
 			saisieCompte();
 			break;
 		case 2:
-			afficherCompte();
+			System.out.println("****************");
+			List<CompteBancaire> compteList = afficherCompte();
+			for (CompteBancaire compte : compteList) {
+				System.out.println(compte);
+			}
+			System.out.println("****************");
 			break;
 		case 3:
 			System.out.println("Quel type de compte voulez-vous afficher ?");
-			String type = clavier.next();
-			afficherCompte(type);
+			String typeCompte = clavier.next();
+			List<CompteBancaire> compteList2 = afficherCompte();
+			System.out.println("****************");
+			for (CompteBancaire compte : compteList2) {
+				if (compte.getTypeCompte().equals(typeCompte)) {
+					System.out.println(compte);
+				}
+			}
+			System.out.println("****************");
+			break;
+
+		case 5:
+			System.out.println("Quel numéro de compte voulez-vous supprimer ?");
+			Integer numCompte = clavier.nextInt();
+			supprCompte(numCompte);
 			break;
 		default:
 			System.out.println("Saisie invalide");
@@ -44,64 +62,81 @@ public class GestionBanque {
 		}
 		clavier.close();
 	}
-	
+
+	public static void supprCompte(Integer numCompte) {
+		final String filename = "compteBancaire.xml";
+		File xmlFile = new File(filename);
+		try {
+			Document doc = new Document();
+			doc.setRootElement(new Element("CompteBancaires"));
+
+			if (xmlFile.exists()) {
+				List<CompteBancaire> listOfComptes = afficherCompte();
+
+				for (CompteBancaire compte : listOfComptes) {
+					Integer num = compte.getNumCompte();
+					if (!num.equals(numCompte)) {
+						doc.getRootElement().addContent(createCompteXMLElement(compte));
+					}
+				}
+			}
+
+			XMLOutputter xmlOutput = new XMLOutputter();
+			xmlOutput.setFormat(Format.getPrettyFormat());
+			xmlOutput.output(doc, new FileWriter("compteBancaire.xml"));
+			System.out.println("File Saved!");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+		}
+	}
+
 	public static void saisieCompte() {
 		final String filename = "compteBancaire.xml";
 		File xmlFile = new File(filename);
 		try {
 			Document doc = new Document();
 			doc.setRootElement(new Element("CompteBancaires"));
-			
+
 			if (xmlFile.exists()) {
-				SAXBuilder builder = new SAXBuilder();
-				Document jdomDoc = (Document) builder.build(xmlFile);
-				
-				Element root = jdomDoc.getRootElement();
-				List < Element > listOfComptes = root.getChildren("CompteBancaire");
-		        
-		        for(Element compteElement: listOfComptes) {
-	                CompteBancaire compte = new CompteBancaire();
-	                compte.setNumCompte(Integer.parseInt(compteElement.getAttributeValue("numCompte")));
-	                compte.setNomProprietaire(compteElement.getChildText("nomProprietaire"));
-	                compte.setSolde(Double.parseDouble(compteElement.getChildText("solde")));
-	                compte.setDateCreation(LocalDate.parse(compteElement.getChildText("dateCreation")));
-	                compte.setTypeCompte(compteElement.getChildText("typeCompte"));
-	                doc.getRootElement().addContent(createCompteXMLElement(compte));
-	            }
+				List<CompteBancaire> listOfComptes = afficherCompte();
+
+				for (CompteBancaire compte : listOfComptes) {
+					doc.getRootElement().addContent(createCompteXMLElement(compte));
+				}
 			}
-			
+
 			Scanner clavier = new Scanner(System.in);
 			System.out.println("Combien voulez-vous ajouter de comptes ?");
 			int nbCompte = clavier.nextInt();
-			
-			for (int i=0 ; i<nbCompte ; i++) {
+
+			for (int i = 0; i < nbCompte; i++) {
 				CompteBancaire compte = newAccount(clavier);
 				doc.getRootElement().addContent(createCompteXMLElement(compte));
 			}
-						
+
 			clavier.close();
-			
+
 			XMLOutputter xmlOutput = new XMLOutputter();
 			xmlOutput.setFormat(Format.getPrettyFormat());
 			xmlOutput.output(doc, new FileWriter("compteBancaire.xml"));
 			System.out.println("File Saved!");
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
+		} finally {
 		}
-		finally {}
 	}
 
 	private static Element createCompteXMLElement(CompteBancaire compte) {
 		Element compteBancaire = new Element("CompteBancaire");
-		compteBancaire.setAttribute(new Attribute("numCompte",""+compte.getNumCompte()));
+		compteBancaire.setAttribute(new Attribute("numCompte", "" + compte.getNumCompte()));
 		compteBancaire.addContent(new Element("nomProprietaire").setText(compte.getNomProprietaire()));
 		compteBancaire.addContent(new Element("solde").setText("" + compte.getSolde()));
 		compteBancaire.addContent(new Element("dateCreation").setText("" + compte.getDateCreation()));
 		compteBancaire.addContent(new Element("typeCompte").setText("" + compte.getTypeCompte()));
 		return compteBancaire;
 	}
-	
+
 	private static CompteBancaire newAccount(Scanner clavier) {
 		System.out.println("Numéro de compte:");
 		int numCompte = clavier.nextInt();
@@ -111,74 +146,37 @@ public class GestionBanque {
 		double solde = clavier.nextDouble();
 		System.out.println("Type de compte:");
 		String typeCompte = clavier.next();
-		
-		CompteBancaire compte = new CompteBancaire(numCompte,nomProprietaire,solde,LocalDate.now(),typeCompte);
+
+		CompteBancaire compte = new CompteBancaire(numCompte, nomProprietaire, solde, LocalDate.now(), typeCompte);
 		return compte;
 	}
 
-	private static void afficherCompte(String typeCompte) {
+	private static List<CompteBancaire> afficherCompte() {
 		final String filename = "compteBancaire.xml";
 		try {
 			SAXBuilder builder = new SAXBuilder();
 			File xmlFile = new File(filename);
 			Document jdomDoc = (Document) builder.build(xmlFile);
-			
-			Element root = jdomDoc.getRootElement();
-			List < Element > listOfComptes = root.getChildren("CompteBancaire");
-	        List <CompteBancaire> compteList = new ArrayList<CompteBancaire>();
-	        
-	        for(Element compteElement: listOfComptes) {
-                CompteBancaire compte = new CompteBancaire();
-                compte.setNumCompte(Integer.parseInt(compteElement.getAttributeValue("numCompte")));
-                compte.setNomProprietaire(compteElement.getChildText("nomProprietaire"));
-                compte.setSolde(Double.parseDouble(compteElement.getChildText("solde")));
-                compte.setDateCreation(LocalDate.parse(compteElement.getChildText("dateCreation")));
-                compte.setTypeCompte(compteElement.getChildText("typeCompte"));
-                compteList.add(compte);
-            }
-	        
-	        System.out.println("****************");
-	        for (CompteBancaire compte: compteList) {
-	        	if (compte.getTypeCompte().equals(typeCompte)) {
-	        		System.out.println(compte);
-	        	}
-	        }
-	        System.out.println("****************");
-	        
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {}
-	}
 
-	private static void afficherCompte() {
-		final String filename = "compteBancaire.xml";
-		try {
-			SAXBuilder builder = new SAXBuilder();
-			File xmlFile = new File(filename);
-			Document jdomDoc = (Document) builder.build(xmlFile);
-			
 			Element root = jdomDoc.getRootElement();
-			List < Element > listOfComptes = root.getChildren("CompteBancaire");
-	        List <CompteBancaire> compteList = new ArrayList<CompteBancaire>();
-	        
-	        for(Element compteElement: listOfComptes) {
-                CompteBancaire compte = new CompteBancaire();
-                compte.setNumCompte(Integer.parseInt(compteElement.getAttributeValue("numCompte")));
-                compte.setNomProprietaire(compteElement.getChildText("nomProprietaire"));
-                compte.setSolde(Double.parseDouble(compteElement.getChildText("solde")));
-                compte.setDateCreation(LocalDate.parse(compteElement.getChildText("dateCreation")));
-                compte.setTypeCompte(compteElement.getChildText("typeCompte"));
-                compteList.add(compte);
-            }
-	        
-	        System.out.println("****************");
-	        for (CompteBancaire compte: compteList) {
-        		System.out.println(compte);
-	        }
-	        System.out.println("****************");
-	        
+			List<Element> listOfComptes = root.getChildren("CompteBancaire");
+			List<CompteBancaire> compteList = new ArrayList<CompteBancaire>();
+
+			for (Element compteElement : listOfComptes) {
+				CompteBancaire compte = new CompteBancaire();
+				compte.setNumCompte(Integer.parseInt(compteElement.getAttributeValue("numCompte")));
+				compte.setNomProprietaire(compteElement.getChildText("nomProprietaire"));
+				compte.setSolde(Double.parseDouble(compteElement.getChildText("solde")));
+				compte.setDateCreation(LocalDate.parse(compteElement.getChildText("dateCreation")));
+				compte.setTypeCompte(compteElement.getChildText("typeCompte"));
+				compteList.add(compte);
+			}
+
+			return compteList;
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {}
+		} finally {
+		}
+		return null;
 	}
 }
