@@ -17,23 +17,31 @@ public class WriteXML {
 			Document doc = new Document();
 			doc.setRootElement(new Element("CompteBancaires"));
 			
+			int numCompte;
+			String nomProprietaire;
+			double solde;
+			String typeCompte;
+			int annee;
+			int mois;
+			int jour;
+			
 			for (int i=0 ; i<2 ; i++) {
 				Scanner clavier = new Scanner(System.in);
 				System.out.println("Numéro de compte:");
-				int numCompte = clavier.nextInt();
+				numCompte = clavier.nextInt();
 				System.out.println("Nom du compte:");
-				String nomProprietaire = clavier.next();
+				nomProprietaire = clavier.next();
 				System.out.println("Solde:");
-				double solde = clavier.nextDouble();
+				solde = clavier.nextDouble();
 				System.out.println("Type de compte:");
-				String typeCompte = clavier.next();
+				typeCompte = clavier.next();
 				System.out.println("Date de création du compte:");
 				System.out.println("Année:");
-				int annee = clavier.nextInt();
+				annee = clavier.nextInt();
 				System.out.println("Mois:");
-				int mois = clavier.nextInt();
+				mois = clavier.nextInt();
 				System.out.println("Jour:");
-				int jour = clavier.nextInt();
+				jour = clavier.nextInt();
 				
 				CompteBancaire compte = new CompteBancaire(numCompte,nomProprietaire,solde,LocalDate.of(annee, mois, jour),typeCompte);
 				doc.getRootElement().addContent(createCompteXMLElement(compte));
