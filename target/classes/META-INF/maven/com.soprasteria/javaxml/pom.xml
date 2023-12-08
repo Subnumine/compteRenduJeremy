@@ -11,4 +11,9 @@
 			<version>2.0.6.1</version>
 		</dependency>
 	</dependencies>
+	<build>
+		<finalName>
+			m2i
+		</finalName>
+	</build>
 </project>

@@ -18,9 +18,32 @@ import org.jdom2.output.XMLOutputter;
 public class GestionBanque {
 
 	public static void main(String[] args) {
-		saisieCompte();
-		afficherCompte();
-		afficherCompte("Courant");
+		
+		System.out.println("Bonjour, que voulez-vous faire ?");
+		System.out.println("1 - Ajouter des comptes bancaires");
+		System.out.println("2 - Afficher tous les comptes");
+		System.out.println("3 - Afficher seulement certains types de comptes");
+		System.out.println("4 - Modifier un compte");
+		System.out.println("5 - Supprimer un compte");
+		Scanner clavier = new Scanner(System.in);
+		int reponse = clavier.nextInt();
+		switch (reponse){
+		case 1 :
+			saisieCompte();
+			break;
+		case 2:
+			afficherCompte();
+			break;
+		case 3:
+			System.out.println("Quel type de compte voulez-vous afficher ?");
+			String type = clavier.next();
+			afficherCompte(type);
+			break;
+		default:
+			System.out.println("Saisie invalide");
+			break;
+		}
+		clavier.close();
 	}
 	
 	public static void saisieCompte() {
