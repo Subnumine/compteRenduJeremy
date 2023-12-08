@@ -24,9 +24,9 @@ public class WriteXML {
 			int annee;
 			int mois;
 			int jour;
+			Scanner clavier = new Scanner(System.in);
 			
 			for (int i=0 ; i<2 ; i++) {
-				Scanner clavier = new Scanner(System.in);
 				System.out.println("Numéro de compte:");
 				numCompte = clavier.nextInt();
 				System.out.println("Nom du compte:");
@@ -45,8 +45,8 @@ public class WriteXML {
 				
 				CompteBancaire compte = new CompteBancaire(numCompte,nomProprietaire,solde,LocalDate.of(annee, mois, jour),typeCompte);
 				doc.getRootElement().addContent(createCompteXMLElement(compte));
-				clavier.close();
 			}
+			clavier.close();
 			XMLOutputter xmlOutput = new XMLOutputter();
 			xmlOutput.setFormat(Format.getPrettyFormat());
 			xmlOutput.output(doc, new FileWriter("compteBancaire.xml"));
