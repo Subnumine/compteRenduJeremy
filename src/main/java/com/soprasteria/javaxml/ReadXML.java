@@ -30,6 +30,11 @@ public class ReadXML {
                 compteList.add(compte);
             }
 	        
+	        for (CompteBancaire compte: compteList) {
+	        	if (compte.getTypeCompte().equals("Courant")) {
+	        		System.out.println(compte);
+	        	}
+	        }
 	        System.out.println(compteList);
 	        
 		} catch (Exception e) {
