@@ -17,35 +17,13 @@ public class WriteXML {
 			Document doc = new Document();
 			doc.setRootElement(new Element("CompteBancaires"));
 			
-			int numCompte;
-			String nomProprietaire;
-			double solde;
-			String typeCompte;
-			int annee;
-			int mois;
-			int jour;
 			Scanner clavier = new Scanner(System.in);
 			
-			for (int i=0 ; i<2 ; i++) {
-				System.out.println("Numéro de compte:");
-				numCompte = clavier.nextInt();
-				System.out.println("Nom du compte:");
-				nomProprietaire = clavier.next();
-				System.out.println("Solde:");
-				solde = clavier.nextDouble();
-				System.out.println("Type de compte:");
-				typeCompte = clavier.next();
-				System.out.println("Date de création du compte:");
-				System.out.println("Année:");
-				annee = clavier.nextInt();
-				System.out.println("Mois:");
-				mois = clavier.nextInt();
-				System.out.println("Jour:");
-				jour = clavier.nextInt();
-				
-				CompteBancaire compte = new CompteBancaire(numCompte,nomProprietaire,solde,LocalDate.of(annee, mois, jour),typeCompte);
-				doc.getRootElement().addContent(createCompteXMLElement(compte));
-			}
+			CompteBancaire compte1 = newAccount(clavier);
+			CompteBancaire compte2 = newAccount(clavier);
+
+			doc.getRootElement().addContent(createCompteXMLElement(compte1));
+			doc.getRootElement().addContent(createCompteXMLElement(compte2));
 			clavier.close();
 			XMLOutputter xmlOutput = new XMLOutputter();
 			xmlOutput.setFormat(Format.getPrettyFormat());
@@ -64,5 +42,26 @@ public class WriteXML {
 		compteBancaire.addContent(new Element("dateCreation").setText("" + compte.getDateCreation()));
 		compteBancaire.addContent(new Element("typeCompte").setText("" + compte.getTypeCompte()));
 		return compteBancaire;
+	}
+	
+	private static CompteBancaire newAccount(Scanner clavier) {
+		System.out.println("Numéro de compte:");
+		int numCompte = clavier.nextInt();
+		System.out.println("Nom du compte:");
+		String nomProprietaire = clavier.next();
+		System.out.println("Solde:");
+		double solde = clavier.nextDouble();
+		System.out.println("Type de compte:");
+		String typeCompte = clavier.next();
+		System.out.println("Date de création du compte:");
+		System.out.println("Année:");
+		int annee = clavier.nextInt();
+		System.out.println("Mois:");
+		int mois = clavier.nextInt();
+		System.out.println("Jour:");
+		int jour = clavier.nextInt();
+		
+		CompteBancaire compte = new CompteBancaire(numCompte,nomProprietaire,solde,LocalDate.of(annee, mois, jour),typeCompte);
+		return compte;
 	}
 }
