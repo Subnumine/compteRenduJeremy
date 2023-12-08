@@ -27,6 +27,7 @@ public class ReadXML {
                 compte.setNomProprietaire(compteElement.getChildText("nomProprietaire"));
                 compte.setSolde(Double.parseDouble(compteElement.getChildText("solde")));
                 compte.setDateCreation(LocalDate.parse(compteElement.getChildText("dateCreation")));
+                compte.setTypeCompte(compteElement.getChildText("typeCompte"));
                 compteList.add(compte);
             }
 	        
@@ -35,7 +36,6 @@ public class ReadXML {
 	        		System.out.println(compte);
 	        	}
 	        }
-	        System.out.println(compteList);
 	        
 		} catch (Exception e) {
 			e.printStackTrace();

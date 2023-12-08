@@ -18,13 +18,16 @@ public class WriteXML {
 			doc.setRootElement(new Element("CompteBancaires"));
 			
 			Scanner clavier = new Scanner(System.in);
+			System.out.println("Combien voulez-vous ajouter de comptes ?");
+			int nbCompte = clavier.nextInt();
 			
-			CompteBancaire compte1 = newAccount(clavier);
-			CompteBancaire compte2 = newAccount(clavier);
-
-			doc.getRootElement().addContent(createCompteXMLElement(compte1));
-			doc.getRootElement().addContent(createCompteXMLElement(compte2));
+			for (int i=0 ; i<nbCompte ; i++) {
+				CompteBancaire compte = newAccount(clavier);
+				doc.getRootElement().addContent(createCompteXMLElement(compte));
+			}
+						
 			clavier.close();
+			
 			XMLOutputter xmlOutput = new XMLOutputter();
 			xmlOutput.setFormat(Format.getPrettyFormat());
 			xmlOutput.output(doc, new FileWriter("compteBancaire.xml"));
@@ -53,15 +56,8 @@ public class WriteXML {
 		double solde = clavier.nextDouble();
 		System.out.println("Type de compte:");
 		String typeCompte = clavier.next();
-		System.out.println("Date de création du compte:");
-		System.out.println("Année:");
-		int annee = clavier.nextInt();
-		System.out.println("Mois:");
-		int mois = clavier.nextInt();
-		System.out.println("Jour:");
-		int jour = clavier.nextInt();
 		
-		CompteBancaire compte = new CompteBancaire(numCompte,nomProprietaire,solde,LocalDate.of(annee, mois, jour),typeCompte);
+		CompteBancaire compte = new CompteBancaire(numCompte,nomProprietaire,solde,LocalDate.now(),typeCompte);
 		return compte;
 	}
 }

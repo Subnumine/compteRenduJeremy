@@ -4,14 +4,14 @@
     <numCompte>20</numCompte>
     <nomProprietaire>Jeremy</nomProprietaire>
     <solde>884.52</solde>
-    <dateCreation>2023-06-20</dateCreation>
+    <dateCreation>2023-12-08</dateCreation>
     <typeCompte>Courant</typeCompte>
   </CompteBancaire>
   <CompteBancaire>
     <numCompte>30</numCompte>
     <nomProprietaire>Justine</nomProprietaire>
-    <solde>1200.89</solde>
-    <dateCreation>2020-10-28</dateCreation>
+    <solde>1200.5</solde>
+    <dateCreation>2023-12-08</dateCreation>
     <typeCompte>Epargne</typeCompte>
   </CompteBancaire>
 </CompteBancaires>
