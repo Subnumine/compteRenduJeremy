@@ -28,7 +28,7 @@ public class GestionBanque {
 		int reponse = clavier.nextInt();
 		switch (reponse) {
 		case 1:
-			saisieCompte();
+			saisieCompte("compteBancaire.xml");
 			break;
 		case 2:
 			System.out.println("****************");
@@ -91,8 +91,8 @@ public class GestionBanque {
 		}
 	}
 
-	public static void saisieCompte() {
-		final String filename = "compteBancaire.xml";
+	public static void saisieCompte(String xml) {
+		final String filename = xml;
 		File xmlFile = new File(filename);
 		try {
 			Document doc = new Document();
