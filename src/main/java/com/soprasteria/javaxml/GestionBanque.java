@@ -2,7 +2,6 @@ package com.soprasteria.javaxml;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ public class GestionBanque {
 		Scanner clavier = new Scanner(System.in);
 		int reponse = clavier.nextInt();
 		switch (reponse){
-		case 1 :
+		case 1:
 			saisieCompte();
 			break;
 		case 2:
@@ -47,9 +46,29 @@ public class GestionBanque {
 	}
 	
 	public static void saisieCompte() {
+		final String filename = "compteBancaire.xml";
+		File xmlFile = new File(filename);
 		try {
 			Document doc = new Document();
 			doc.setRootElement(new Element("CompteBancaires"));
+			
+			if (xmlFile.exists()) {
+				SAXBuilder builder = new SAXBuilder();
+				Document jdomDoc = (Document) builder.build(xmlFile);
+				
+				Element root = jdomDoc.getRootElement();
+				List < Element > listOfComptes = root.getChildren("CompteBancaire");
+		        
+		        for(Element compteElement: listOfComptes) {
+	                CompteBancaire compte = new CompteBancaire();
+	                compte.setNumCompte(Integer.parseInt(compteElement.getAttributeValue("numCompte")));
+	                compte.setNomProprietaire(compteElement.getChildText("nomProprietaire"));
+	                compte.setSolde(Double.parseDouble(compteElement.getChildText("solde")));
+	                compte.setDateCreation(LocalDate.parse(compteElement.getChildText("dateCreation")));
+	                compte.setTypeCompte(compteElement.getChildText("typeCompte"));
+	                doc.getRootElement().addContent(createCompteXMLElement(compte));
+	            }
+			}
 			
 			Scanner clavier = new Scanner(System.in);
 			System.out.println("Combien voulez-vous ajouter de comptes ?");
@@ -67,8 +86,8 @@ public class GestionBanque {
 			xmlOutput.output(doc, new FileWriter("compteBancaire.xml"));
 			System.out.println("File Saved!");
 		}
-		catch(IOException io) {
-			System.out.println(io.getMessage());
+		catch(Exception e) {
+			System.out.println(e.getMessage());
 		}
 		finally {}
 	}

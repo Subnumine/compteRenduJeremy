@@ -12,4 +12,16 @@
     <dateCreation>2023-12-08</dateCreation>
     <typeCompte>Epargne</typeCompte>
   </CompteBancaire>
+  <CompteBancaire numCompte="50">
+    <nomProprietaire>Jako</nomProprietaire>
+    <solde>8278.98</solde>
+    <dateCreation>2023-12-08</dateCreation>
+    <typeCompte>Courant</typeCompte>
+  </CompteBancaire>
+  <CompteBancaire numCompte="90">
+    <nomProprietaire>Kevin</nomProprietaire>
+    <solde>54.8</solde>
+    <dateCreation>2023-12-08</dateCreation>
+    <typeCompte>Epargne</typeCompte>
+  </CompteBancaire>
 </CompteBancaires>
