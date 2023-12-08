@@ -35,9 +35,9 @@ public class WriteXML {
 				System.out.println("Jour:");
 				int jour = clavier.nextInt();
 				
-				
 				CompteBancaire compte = new CompteBancaire(numCompte,nomProprietaire,solde,LocalDate.of(annee, mois, jour),typeCompte);
 				doc.getRootElement().addContent(createCompteXMLElement(compte));
+				clavier.close();
 			}
 			XMLOutputter xmlOutput = new XMLOutputter();
 			xmlOutput.setFormat(Format.getPrettyFormat());
