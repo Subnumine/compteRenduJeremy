@@ -23,7 +23,7 @@ public class ReadXML {
 	        
 	        for(Element compteElement: listOfComptes) {
                 CompteBancaire compte = new CompteBancaire();
-                compte.setNumCompte(Integer.parseInt(compteElement.getChildText("numCompte")));
+                compte.setNumCompte(Integer.parseInt(compteElement.getAttributeValue("numCompte")));
                 compte.setNomProprietaire(compteElement.getChildText("nomProprietaire"));
                 compte.setSolde(Double.parseDouble(compteElement.getChildText("solde")));
                 compte.setDateCreation(LocalDate.parse(compteElement.getChildText("dateCreation")));

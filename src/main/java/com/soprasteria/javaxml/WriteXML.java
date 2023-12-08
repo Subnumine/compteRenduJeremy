@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
@@ -39,7 +40,7 @@ public class WriteXML {
 
 	private static Element createCompteXMLElement(CompteBancaire compte) {
 		Element compteBancaire = new Element("CompteBancaire");
-		compteBancaire.addContent(new Element("numCompte").setText(""+compte.getNumCompte()));
+		compteBancaire.setAttribute(new Attribute("numCompte",""+compte.getNumCompte()));
 		compteBancaire.addContent(new Element("nomProprietaire").setText(compte.getNomProprietaire()));
 		compteBancaire.addContent(new Element("solde").setText("" + compte.getSolde()));
 		compteBancaire.addContent(new Element("dateCreation").setText("" + compte.getDateCreation()));
